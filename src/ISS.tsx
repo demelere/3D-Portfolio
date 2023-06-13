@@ -1,29 +1,30 @@
-import React, { useRef } from 'react';
-import { useFrame } from 'react-three-fiber';
+import React, { useRef, useLayoutEffect } from 'react';
+import { useFrame, useLoader } from 'react-three-fiber';
+import { useGLTF } from '@react-three/drei';
 import { Mesh } from 'three';
+// import * as THREE from 'three';
 
 const ISS = () => {
     const meshRef = useRef<Mesh>(null);
-    console.log('meshRef: ', meshRef)
-    console.log('Type of meshRef:', typeof meshRef);
-    console.log('Type of Mesh:', typeof Mesh);
+
+    const { scene } = useGLTF(process.env.PUBLIC_URL + '/ISS_2016.gltf');
 
     useFrame(() => {
         if (!meshRef.current) {
             console.log('meshRef.current is null')
             return;
         }
-
-        console.log('meshRef.current: ', meshRef.current)
-        meshRef.current.rotation.x += 0.01;
-        meshRef.current.rotation.y += 0.01;
+        meshRef.current.rotation.x += 0.005;
+        meshRef.current.rotation.y += 0.005;
     });
 
     return (
-        <mesh ref={meshRef}>
-            <boxGeometry args={[2,2,2]}/>
-            <meshStandardMaterial color="blue"/>
-        </mesh>
+        // <mesh ref={meshRef}>
+        //     <boxGeometry args={[2,2,2]}/>
+        //     <meshStandardMaterial color="blue"/>
+        // </mesh>
+
+        <primitive object={scene} ref={meshRef}/>
       );
   };
 
